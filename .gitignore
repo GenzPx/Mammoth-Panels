@@ -11,3 +11,6 @@
 *.apk
 *.aab
 !gradle/wrapper/gradle-wrapper.jar
+keystore.properties
+*.keystore
+!mammoth-release.keystore

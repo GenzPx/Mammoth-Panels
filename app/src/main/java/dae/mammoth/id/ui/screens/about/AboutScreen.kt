@@ -32,9 +32,13 @@ import dae.mammoth.id.AppInfo
 import dae.mammoth.id.ui.components.PanelBox
 import dae.mammoth.id.ui.components.PanelRow
 import dae.mammoth.id.ui.components.SectionLabel
+import dae.mammoth.id.javalib.JavaCompat
+import dae.mammoth.id.nativelib.NativeHelper
 import dae.mammoth.id.ui.theme.Bg
 import dae.mammoth.id.ui.theme.Border
+import dae.mammoth.id.ui.theme.Green
 import dae.mammoth.id.ui.theme.Panel2
+import dae.mammoth.id.ui.theme.Red
 import dae.mammoth.id.ui.theme.TextMuted
 import dae.mammoth.id.ui.theme.TextPrimary
 
@@ -91,6 +95,22 @@ fun AboutScreen(
                 PanelRow(key = "Node.js", value = "v22.12.0")
                 PanelRow(key = "Python", value = "3.12.1")
                 PanelRow(key = "Bun", value = "opsional")
+            }
+
+            SectionLabel("Native (C / NDK)")
+            PanelBox {
+                PanelRow(key = "Library", value = "libmammoth_native.so")
+                PanelRow(key = "Version", value = NativeHelper.version)
+                PanelRow(key = "Arch", value = NativeHelper.arch)
+                PanelRow(key = "Status", value = if (NativeHelper.loaded) "termuat" else "tidak termuat", valueColor = if (NativeHelper.loaded) Green else Red)
+            }
+
+            SectionLabel("Java Runtime")
+            PanelBox {
+                PanelRow(key = "Java", value = JavaCompat.javaVersion())
+                PanelRow(key = "Vendor", value = JavaCompat.javaVendor())
+                PanelRow(key = "Prosesor", value = "${JavaCompat.availableProcessors()} core")
+                PanelRow(key = "Heap", value = "${JavaCompat.heapMegabytes()} MB")
             }
 
             SectionLabel("Lisensi")
