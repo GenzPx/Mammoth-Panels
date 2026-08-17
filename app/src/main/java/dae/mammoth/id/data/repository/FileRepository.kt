@@ -34,4 +34,26 @@ class FileRepository(private val context: Context) {
         val f = File(path)
         return f.deleteRecursively()
     }
+
+    /** Copies a file selected from the system picker ([uri]) into [destDir]. */
+    fun upload(uri: android.net.Uri, destDir: File): File? {
+        return runCatching {
+            val name = queryDisplayName(uri) ?: "upload_${System.currentTimeMillis()}"
+            val out = File(destDir, name)
+            context.contentResolver.openInputStream(uri)?.use { input ->
+                out.outputStream().use { input.copyTo(it) }
+            } ?: return null
+            out
+        }.getOrNull()
+    }
+
+    private fun queryDisplayName(uri: android.net.Uri): String? {
+        return runCatching {
+            context.contentResolver.query(
+                uri, arrayOf(android.provider.OpenableColumns.DISPLAY_NAME), null, null, null,
+            )?.use { c ->
+                if (c.moveToFirst()) c.getString(0) else null
+            }
+        }.getOrNull()
+    }
 }

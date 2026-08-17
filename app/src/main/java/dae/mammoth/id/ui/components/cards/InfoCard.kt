@@ -46,9 +46,26 @@ fun InfoCard(title: String, body: String, modifier: Modifier = Modifier) {
         ) {
             Icon(Icons.Outlined.Info, contentDescription = null, tint = Color(0xFF04121C), modifier = Modifier.size(12.dp))
         }
-        Box {
-            Text(title, color = TextPrimary, fontSize = 12.5.sp, fontWeight = FontWeight.Bold)
-            Text(body, color = TextMuted, fontSize = 11.5.sp, lineHeight = 16.sp)
+        Box(
+            Modifier
+                .weight(1f)
+        ) {
+            Text(
+                title,
+                color = TextPrimary,
+                fontSize = 12.5.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+            )
+            Text(
+                body,
+                color = TextMuted,
+                fontSize = 11.5.sp,
+                lineHeight = 16.sp,
+                maxLines = 3,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+            )
         }
     }
 }

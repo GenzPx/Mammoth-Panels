@@ -18,9 +18,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.CreateNewFolder
+import androidx.compose.material.icons.outlined.FileUpload
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.InsertDriveFile
 import androidx.compose.material3.Icon
@@ -31,7 +34,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,6 +48,7 @@ import dae.mammoth.id.viewmodel.FileManagerViewModel
 import dae.mammoth.id.ui.theme.Accent
 import dae.mammoth.id.ui.theme.Bg
 import dae.mammoth.id.ui.theme.Border
+import dae.mammoth.id.ui.theme.Green
 import dae.mammoth.id.ui.theme.Panel
 import dae.mammoth.id.ui.theme.Panel2
 import dae.mammoth.id.ui.theme.TextMuted
@@ -59,6 +64,14 @@ fun FileManagerScreen(
     val vm: FileManagerViewModel = viewModel(factory = factory)
     LaunchedEffect(Unit) { vm.openRoot() }
     val state by vm.uiState.collectAsState()
+
+    // System file picker for uploading a script into the current folder.
+    val context = LocalContext.current
+    val uploadLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        if (uri != null) vm.upload(uri)
+    }
 
     Column(
         Modifier
@@ -83,8 +96,18 @@ fun FileManagerScreen(
             ) {
                 Icon(Icons.Outlined.ArrowBack, contentDescription = "Back", tint = TextMuted, modifier = Modifier.size(16.dp))
             }
-            Text("File Manager", color = TextPrimary, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold)
-            Spacer(Modifier.weight(1f))
+            Text("File Manager", color = TextPrimary, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
+            Box(
+                Modifier
+                    .size(32.dp)
+                    .background(Green, RoundedCornerShape(4.dp))
+                    .clickable {
+                        uploadLauncher.launch(arrayOf("*/*"))
+                    },
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(Icons.Outlined.FileUpload, contentDescription = "Upload", tint = Color(0xFF04121C), modifier = Modifier.size(16.dp))
+            }
             Box(
                 Modifier
                     .size(32.dp)

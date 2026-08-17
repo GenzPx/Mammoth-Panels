@@ -67,18 +67,29 @@ class FileManagerViewModel(context: Context) : ViewModel() {
         }
     }
 
+    /** Imports a file picked from the system picker into the current folder. */
+    fun upload(uri: android.net.Uri) {
+        viewModelScope.launch {
+            repository.upload(uri, File(_uiState.value.currentPath))
+            refresh(_uiState.value.currentPath)
+        }
+    }
+
     private fun refresh(path: String) {
         val entries = repository.list(path)
         val rootAbs = repository.root.absolutePath
         val current = File(path)
-        val crumbs = buildList {
-            var f: File? = current
-            val acc = mutableListOf<String>()
-            while (f != null && f.absolutePath.startsWith(rootAbs)) {
-                acc.add(0, f.name.ifEmpty { "Mammoth" })
-                f = f.parentFile
+        // Build a clean breadcrumb relative to the workspace root: show only the
+        // folders *inside* Mammoth (e.g. ["Mammoth", "dc"]) — never the noisy
+        // Android/storage path segments that confused users.
+        val crumbs = if (current.absolutePath.startsWith(rootAbs)) {
+            val sub = current.absolutePath.removePrefix(rootAbs).trim('/')
+            buildList {
+                add("Mammoth")
+                if (sub.isNotEmpty()) addAll(sub.split("/"))
             }
-            addAll(acc)
+        } else {
+            listOf(current.name.ifEmpty { "Mammoth" })
         }
         val isRoot = current.absolutePath == repository.root.absolutePath
         _uiState.update {
