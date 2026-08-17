@@ -7,10 +7,10 @@ import androidx.compose.ui.graphics.Color
 
 /** Available accent colors the user can pick from. */
 enum class AccentKey(val label: String, val color: Color) {
-    Cyan("Cyan", Accent),
-    Blue("Blue", Accent2),
-    Green("Hijau", Green),
-    Yellow("Kuning", Yellow),
+    Cyan("Cyan", Color(0xFF00B3D9)),
+    Blue("Blue", Color(0xFF3D78E0)),
+    Green("Hijau", Color(0xFF3FBF6F)),
+    Yellow("Kuning", Color(0xFFE0A53F)),
     Orange("Orange", Color(0xFFF97316)),
     Purple("Ungu", Color(0xFF9B5CF5)),
 }

@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dae.mammoth.id.model.NetworkTest
 import dae.mammoth.id.model.ProbeStatus
-import dae.mammoth.id.ui.components.InfoCard
+import dae.mammoth.id.ui.components.cards.InfoCard
 import dae.mammoth.id.ui.components.SectionLabel
 import dae.mammoth.id.viewmodel.AppViewModelFactory
 import dae.mammoth.id.viewmodel.NetworkViewModel

@@ -134,7 +134,7 @@ fun ConsoleScreen(onBack: () -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text("root@wa-main:~$", color = Green, fontSize = 12.sp, fontFamily = FontFamily.Monospace)
-            androidx.compose.material3.BasicTextField(
+            androidx.compose.foundation.text.BasicTextField(
                 value = state.input,
                 onValueChange = { vm.setInput(it) },
                 singleLine = true,

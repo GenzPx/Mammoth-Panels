@@ -131,12 +131,13 @@ fun SettingsScreen(
                     Text("Backup config", color = TextPrimary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
                     Text("Ekspor JSON", color = TextMuted, fontSize = 12.sp)
                 }
-                if (state.lastBackupPath != null) {
+                val backupPath = state.lastBackupPath
+                if (backupPath != null) {
                     Row(Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 6.dp)) {
                         Text("Tersimpan:", color = TextMuted, fontSize = 11.sp, fontFamily = FontFamily.Monospace)
                     }
                     Row(Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 6.dp)) {
-                        Text(state.lastBackupPath, color = TextMuted, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
+                        Text(backupPath, color = TextMuted, fontSize = 10.sp, fontFamily = FontFamily.Monospace)
                     }
                 }
             }
