@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.Mammoth" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">#1d2431</item>
+        <item name="android:navigationBarColor">#232a3a</item>
+        <item name="android:windowBackground">#232a3a</item>
+    </style>
+</resources>
