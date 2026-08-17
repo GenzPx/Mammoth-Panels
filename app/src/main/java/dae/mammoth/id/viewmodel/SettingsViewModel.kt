@@ -19,8 +19,8 @@ data class SettingsUiState(
     val autoRestart: Boolean = true,
     val batteryExclusion: Boolean = false,
     val isIgnoringBattery: Boolean = false,
-    val versionName: String = "0.1.0",
-    val packageId: String = "dae.mammoth.id",
+    val versionName: String = dae.mammoth.id.AppInfo.VERSION_NAME,
+    val packageId: String = dae.mammoth.id.AppInfo.PACKAGE_ID,
     val lastBackupPath: String? = null,
     val accentKey: dae.mammoth.id.ui.theme.AccentKey = dae.mammoth.id.ui.theme.AccentKey.Cyan,
 )

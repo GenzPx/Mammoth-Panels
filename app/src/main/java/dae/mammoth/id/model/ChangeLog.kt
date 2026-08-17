@@ -10,10 +10,22 @@ data class ChangeLogEntry(
 object SampleChangeLog {
     val list = listOf(
         ChangeLogEntry(
+            version = "1.0.0",
+            date = "2026-08-17",
+            changes = listOf(
+                "Rilis stabil pertama",
+                "Icon launcher resmi (logo Mammoth)",
+                "Native C/NDK helper + Java runtime info",
+                "Network diagnostics & process monitor",
+                "Sign release APK via GitHub Releases",
+                "Pembersihan kode & perbaikan bug",
+            ),
+        ),
+        ChangeLogEntry(
             version = "0.1.0",
             date = "2026-08-17",
             changes = listOf(
-                "Rilis perdana Mammoth",
+                "Rilis awal Mammoth",
                 "Server list bergaya panel + 7 tab detail",
                 "Foreground service & wake lock (keep-alive)",
                 "File manager lokal",

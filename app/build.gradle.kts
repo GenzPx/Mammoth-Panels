@@ -31,8 +31,8 @@ android {
         applicationId = "dae.mammoth.id"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "1.0.0"
 
         // only build the ABIs Android phones actually use
         ndk {

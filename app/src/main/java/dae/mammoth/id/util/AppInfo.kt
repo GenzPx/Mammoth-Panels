@@ -8,6 +8,6 @@ object AppInfo {
     const val NAME = "Mammoth"
     const val TAGLINE = "Bot Runner · Pterodactyl-style"
     const val PACKAGE_ID = "dae.mammoth.id"
-    const val VERSION_NAME = "0.1.0"
-    const val VERSION_CODE = 1
+    const val VERSION_NAME = "1.0.0"
+    const val VERSION_CODE = 2
 }
