@@ -209,7 +209,22 @@ fun PanelRow(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         leading?.invoke()
-        Text(key, color = TextPrimary, fontSize = 11.5.sp, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace, modifier = Modifier.weight(1f))
-        Text(value, color = valueColor, fontSize = 11.sp, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace)
+        Text(
+            key,
+            color = TextPrimary,
+            fontSize = 11.5.sp,
+            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+            maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f, fill = false),
+        )
+        Text(
+            value,
+            color = valueColor,
+            fontSize = 11.sp,
+            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+            maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+        )
     }
 }

@@ -104,8 +104,22 @@ fun ServerDetailScreen(
                 Icon(Icons.Outlined.ArrowBack, contentDescription = "Back", tint = TextMuted, modifier = Modifier.size(16.dp))
             }
             Column(Modifier.weight(1f)) {
-                Text(bot.name, color = TextPrimary, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold)
-                Text(bot.meta, color = TextMuted, fontSize = 11.sp, fontFamily = FontFamily.Monospace)
+                Text(
+                    bot.name,
+                    color = TextPrimary,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    maxLines = 1,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                )
+                Text(
+                    bot.meta,
+                    color = TextMuted,
+                    fontSize = 11.sp,
+                    fontFamily = FontFamily.Monospace,
+                    maxLines = 1,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                )
             }
             StatusPill(text = if (bot.running) "RUN" else "OFF", color = if (bot.running) Green else TextMuted)
         }
@@ -216,9 +230,24 @@ private fun Gauge(label: String, value: String, pct: Int, fill: Color, modifier:
             .border(1.dp, Border, RoundedCornerShape(0.dp))
             .padding(10.dp)
     ) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(label.uppercase(), color = TextMuted, fontSize = 9.5.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 0.8.sp)
-            Text(value, color = TextPrimary, fontSize = 9.5.sp, fontWeight = FontWeight.Bold)
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                label.uppercase(),
+                color = TextMuted,
+                fontSize = 9.5.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 0.8.sp,
+                maxLines = 1,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f, fill = false),
+            )
+            Text(
+                value,
+                color = TextPrimary,
+                fontSize = 9.5.sp,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+            )
         }
         Spacer(Modifier.height(6.dp))
         Text(value, color = TextPrimary, fontSize = 16.sp, fontWeight = FontWeight.ExtraBold, fontFamily = FontFamily.Monospace)
