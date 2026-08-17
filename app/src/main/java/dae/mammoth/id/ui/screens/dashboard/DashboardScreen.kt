@@ -20,6 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Folder
+import androidx.compose.material.icons.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.NetworkCheck
 import androidx.compose.material.icons.outlined.Refresh
@@ -55,6 +56,7 @@ fun DashboardScreen(
     onOpenServers: () -> Unit,
     onOpenFiles: () -> Unit,
     onOpenNetwork: () -> Unit,
+    onOpenHelp: () -> Unit = {},
 ) {
     val vm: DashboardViewModel = viewModel(factory = factory)
     LaunchedEffect(Unit) { vm.refresh() }
@@ -122,6 +124,7 @@ fun DashboardScreen(
                 QuickAction("Kelola Servers", { Icon(Icons.Outlined.List, contentDescription = null, tint = TextPrimary) }, onOpenServers)
                 QuickAction("File Manager", { Icon(Icons.Outlined.Folder, contentDescription = null, tint = TextPrimary) }, onOpenFiles)
                 QuickAction("Network Diagnostics", { Icon(Icons.Outlined.NetworkCheck, contentDescription = null, tint = TextPrimary) }, onOpenNetwork)
+                QuickAction("Bantuan / Panduan", { Icon(Icons.Outlined.HelpOutline, contentDescription = null, tint = TextPrimary) }, onOpenHelp)
             }
 
             Spacer(Modifier.height(40.dp))

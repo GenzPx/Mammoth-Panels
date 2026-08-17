@@ -49,4 +49,11 @@ class BotDetailViewModel(
             start()
         }
     }
+
+    fun remove() {
+        _uiState.value.bot?.let { b ->
+            repository.remove(b.id)
+            _uiState.update { it.copy(bot = null) }
+        }
+    }
 }

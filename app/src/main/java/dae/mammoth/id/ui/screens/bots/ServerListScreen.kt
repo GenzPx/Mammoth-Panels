@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -55,10 +56,7 @@ import dae.mammoth.id.ui.theme.TextPrimary
 fun ServerListScreen(
     factory: AppViewModelFactory,
     onOpenBot: (String) -> Unit,
-    onOpenCredits: () -> Unit,
     onNewBot: () -> Unit,
-    onOpenConsole: () -> Unit,
-    onOpenLogs: () -> Unit,
     onOpenSettings: () -> Unit,
 ) {
     val vm: BotListViewModel = viewModel(factory = factory)
@@ -143,85 +141,78 @@ fun ServerListScreen(
 @Composable
 private fun ServerGrid(bots: List<Bot>, onOpenBot: (String) -> Unit, onNewBot: () -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        bots.chunked(2).forEach { rowBots ->
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                rowBots.forEach { bot ->
-                    ServerCard(bot = bot, modifier = Modifier.weight(1f), onClick = { onOpenBot(bot.id) })
-                }
-                if (rowBots.size == 1) {
-                    NewServerCard(modifier = Modifier.weight(1f), onClick = onNewBot)
-                }
-            }
+        bots.forEach { bot ->
+            ServerCard(bot = bot, modifier = Modifier.fillMaxWidth(), onClick = { onOpenBot(bot.id) })
         }
-        if (bots.isNotEmpty() && bots.size % 2 == 0) {
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                NewServerCard(modifier = Modifier.weight(1f), onClick = onNewBot)
-            }
-        }
+        NewServerCard(modifier = Modifier.fillMaxWidth(), onClick = onNewBot)
     }
 }
 
 @Composable
 private fun ServerCard(bot: Bot, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    Column(
+    Row(
         modifier = modifier
             .background(Panel)
             .border(1.dp, Border, RoundedCornerShape(0.dp))
             .clickable(onClick = onClick)
-            .padding(13.dp)
+            .padding(horizontal = 14.dp, vertical = 13.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             Modifier
-                .size(40.dp)
+                .size(44.dp)
                 .background(bot.avatarColor, RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
             Text(bot.id.uppercase(), color = Color(0xFF04121C), fontWeight = FontWeight.ExtraBold, fontSize = 15.sp)
         }
-        Spacer(Modifier.height(10.dp))
-        Text(bot.name, color = TextPrimary, fontSize = 13.sp, fontWeight = FontWeight.Bold, maxLines = 1)
-        Text(bot.meta, color = TextMuted, fontSize = 10.5.sp, fontFamily = FontFamily.Monospace)
-        Spacer(Modifier.height(9.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                Modifier
-                    .weight(1f)
-                    .height(6.dp)
-                    .background(Bg)
-            ) {
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f)) {
+            Text(bot.name, color = TextPrimary, fontSize = 14.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+            Text(bot.meta, color = TextMuted, fontSize = 11.sp, fontFamily = FontFamily.Monospace, maxLines = 1)
+            Spacer(Modifier.height(7.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     Modifier
-                        .fillMaxWidth(fraction = bot.memPct.coerceIn(0, 100) / 100f)
+                        .weight(1f)
                         .height(6.dp)
-                        .background(Green)
-                )
+                        .background(Bg)
+                ) {
+                    Box(
+                        Modifier
+                            .fillMaxWidth(fraction = bot.memPct.coerceIn(0, 100) / 100f)
+                            .height(6.dp)
+                            .background(Green)
+                    )
+                }
             }
-            StatusPill(text = if (bot.running) "RUN" else "OFF", color = if (bot.running) Green else TextMuted)
         }
+        Spacer(Modifier.width(12.dp))
+        StatusPill(text = if (bot.running) "RUN" else "OFF", color = if (bot.running) Green else TextMuted)
     }
 }
 
 @Composable
 private fun NewServerCard(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    Column(
+    Row(
         modifier = modifier
             .background(Panel)
             .border(1.dp, Border2, RoundedCornerShape(0.dp))
             .clickable(onClick = onClick)
-            .padding(13.dp)
+            .padding(horizontal = 14.dp, vertical = 13.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             Modifier
-                .size(40.dp)
+                .size(44.dp)
                 .background(Panel2, RoundedCornerShape(4.dp))
                 .border(1.dp, Border2, RoundedCornerShape(4.dp)),
             contentAlignment = Alignment.Center,
         ) {
             Icon(Icons.Outlined.Add, contentDescription = "New", tint = TextMuted)
         }
-        Spacer(Modifier.height(10.dp))
-        Text("New Server", color = TextMuted, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-        Text("buat bot baru", color = TextMuted, fontSize = 10.5.sp, fontFamily = FontFamily.Monospace)
+        Spacer(Modifier.width(12.dp))
+        Text("Buat Bot Baru", color = TextPrimary, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
     }
 }
 

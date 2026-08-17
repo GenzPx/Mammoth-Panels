@@ -8,6 +8,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -84,7 +88,16 @@ class MainActivity : ComponentActivity() {
             ?.let { dae.mammoth.id.ui.theme.AccentKey.entries.firstOrNull { a -> a.name == it } }
             ?: dae.mammoth.id.ui.theme.AccentKey.Cyan
         dae.mammoth.id.ui.theme.MammothTheme(accent = accentState) {
-            NavHost(navController = nav, startDestination = Routes.DASHBOARD) {
+            // Apply system-bar insets once for the whole app so content never
+            // renders under the status bar / navigation bar (fixes UI shifting
+            // up and overlapping on edge-to-edge displays).
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(dae.mammoth.id.ui.theme.Bg)
+                    .systemBarsPadding(),
+            ) {
+                NavHost(navController = nav, startDestination = Routes.DASHBOARD) {
                 composable(Routes.DASHBOARD) {
                     DashboardScreen(
                         factory = factory,
@@ -93,16 +106,14 @@ class MainActivity : ComponentActivity() {
                         onOpenServers = { nav.navigate(Routes.SERVERS) },
                     onOpenFiles = { nav.navigate(Routes.FILES) },
                     onOpenNetwork = { nav.navigate(Routes.NETWORK) },
+                    onOpenHelp = { nav.navigate(Routes.HELP) },
                 )
             }
-            composable(Routes.SERVERS) {
+                composable(Routes.SERVERS) {
                     ServerListScreen(
                         factory = factory,
                         onOpenBot = { id -> nav.navigate(Routes.serverDetail(id)) },
-                        onOpenCredits = { nav.navigate(Routes.CREDITS) },
                         onNewBot = { nav.navigate(Routes.NEW_BOT) },
-                        onOpenConsole = { nav.navigate(Routes.CONSOLE) },
-                        onOpenLogs = { nav.navigate(Routes.LOGS) },
                         onOpenSettings = { nav.navigate(Routes.SETTINGS) },
                     )
                 }
@@ -113,6 +124,7 @@ class MainActivity : ComponentActivity() {
                         factory = factory,
                         onBack = { nav.popBackStack() },
                         onOpenFiles = { nav.navigate(Routes.FILES) },
+                        onDeleted = { nav.popBackStack() },
                     )
                 }
                 composable(Routes.FILES) {
@@ -179,6 +191,7 @@ class MainActivity : ComponentActivity() {
                 }
                 composable(Routes.PROCESSES) {
                     ProcessesScreen(factory = factory, onBack = { nav.popBackStack() })
+                }
                 }
             }
         }

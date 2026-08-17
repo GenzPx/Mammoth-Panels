@@ -9,20 +9,28 @@ data class HelpTopic(
 object SampleHelp {
     val list = listOf(
         HelpTopic(
-            "Apa itu Mammoth?",
-            "Mammoth adalah bot runner yang berjalan sepenuhnya di HP Anda. Tidak ada server eksternal — selama HP tidak dimatikan dan ada koneksi, bot tetap aktif.",
+            "Mulai cepat (Quick Start)",
+            "1) Buka Dashboard lalu tekan 'Buat Bot Baru'.\n2) Isi nama & pilih runtime (Node.js / Python / Bun).\n3) Bot muncul di daftar Server — tekan untuk masuk ke panel.\n4) Masukkan script Anda lewat File Manager, lalu tekan Start.",
         ),
         HelpTopic(
-            "Kenapa bot tidak mati walau layar mati?",
-            "Mammoth memakai foreground service, wake lock, dan (opsional) eksklusi baterai sehingga proses tetap hidup di latar belakang.",
+            "Cara menjalankan bot",
+            "Buka detail server, lalu gunakan tombol Start / Restart / Stop di bagian atas. Tab Console menampilkan output dan kolom untuk mengetik perintah.",
         ),
         HelpTopic(
-            "Bagaimana cara menambah bot?",
-            "Gunakan menu 'Buat Bot Baru', pilih runtime (Node.js/Python/Bun), dan tentukan entry point script Anda di File Manager.",
+            "Menjaga bot tetap aktif",
+            "Mammoth memakai foreground service + wake lock. Untuk daya tahan maksimal, di Pengaturan aktifkan 'Eksklusi baterai (Doze)' dan izinkan notifikasi.",
+        ),
+        HelpTopic(
+            "Menambah script / file",
+            "Buka File Manager dari dashboard, lalu upload atau buat file baru di folder bot. File teks bisa diedit langsung lewat editor bawaan.",
+        ),
+        HelpTopic(
+            "Cek koneksi",
+            "Gunakan 'Network Diagnostics' untuk memastikan HP bisa menjangkau WhatsApp, Telegram, Discord, dan GitHub.",
         ),
         HelpTopic(
             "Apakah data saya dikirim keluar?",
-            "Tidak. Semua script dan konfigurasi tersimpan lokal di penyimpanan HP Anda.",
+            "Tidak. Semua script dan konfigurasi tersimpan lokal di penyimpanan HP Anda, tanpa server eksternal.",
         ),
     )
 }

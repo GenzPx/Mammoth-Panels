@@ -73,6 +73,7 @@ fun ServerDetailScreen(
     factory: AppViewModelFactory,
     onBack: () -> Unit,
     onOpenFiles: (String) -> Unit,
+    onDeleted: () -> Unit = {},
 ) {
     val vm: BotDetailViewModel = viewModel(factory = factory)
     LaunchedEffect(botId) { vm.load(botId) }
@@ -178,7 +179,14 @@ fun ServerDetailScreen(
                 ServerTab.Schedules -> SchedulesPane()
                 ServerTab.Network -> NetworkPane()
                 ServerTab.Startup -> StartupPane(bot.entryPoint)
-                ServerTab.Settings -> SettingsPane()
+                ServerTab.Settings -> SettingsPane(
+                    onRename = { /* rename flow could open a dialog; scaffold keeps it as a toast-like no-op */ },
+                    onReinstall = { /* reinstall would reset the bot folder */ },
+                    onDelete = {
+                        vm.remove()
+                        onDeleted()
+                    },
+                )
             }
 
             Spacer(Modifier.height(40.dp))
@@ -347,7 +355,11 @@ private fun StartupPane(entryPoint: String) {
 }
 
 @Composable
-private fun SettingsPane() {
+private fun SettingsPane(
+    onRename: () -> Unit,
+    onReinstall: () -> Unit,
+    onDelete: () -> Unit,
+) {
     Column {
         PanelBox {
             Column {
@@ -359,9 +371,9 @@ private fun SettingsPane() {
         }
         Spacer(Modifier.height(12.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            ActionButton("Rename", Accent, Color(0xFF04121C), Modifier.weight(1f))
-            ActionButton("Reinstall", Accent2, Color.White, Modifier.weight(1f))
-            ActionButton("Hapus", Red, Color.White, Modifier.weight(1f)) {
+            ActionButton("Rename", Accent, Color(0xFF04121C), Modifier.weight(1f), onClick = onRename)
+            ActionButton("Reinstall", Accent2, Color.White, Modifier.weight(1f), onClick = onReinstall)
+            ActionButton("Hapus", Red, Color.White, Modifier.weight(1f), onClick = onDelete) {
                 Icon(Icons.Outlined.Delete, contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
             }
         }
@@ -399,11 +411,11 @@ private fun SettingToggle(label: String, desc: String, on: Boolean) {
 }
 
 @Composable
-private fun ActionButton(text: String, bg: Color, fg: Color, modifier: Modifier = Modifier, icon: (@Composable () -> Unit)? = null) {
+private fun ActionButton(text: String, bg: Color, fg: Color, modifier: Modifier = Modifier, onClick: () -> Unit, icon: (@Composable () -> Unit)? = null) {
     Row(
         modifier
             .background(bg)
-            .clickable { }
+            .clickable(onClick = onClick)
             .padding(vertical = 9.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
